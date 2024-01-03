@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String     @id @default(uuid())
+  userId          Int        @unique
+  status          UserStatus @default(ACTIVE)
+  userRole        UserRole   @default(USER)
+  email           String     @unique
+  password        String
+  firstName       String
+  lastName        String
+  gender          Gender?
+  phone           String?
+  hireDate        DateTime?
+  terminationDate DateTime?
+  birthDate       DateTime?
+  lastLogin       DateTime?
+  profileImageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Gender {
+  M
+  F
+}

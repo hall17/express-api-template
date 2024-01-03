@@ -1,0 +1,26 @@
+#logs
+logs
+*.log
+
+#runtime data
+pids
+*.pids
+.eslintcache
+
+#dependency diretory
+node_modules
+
+release
+
+.idea
+npm-debug.log.*
+*.css.d.ts
+*.sass.d.ts
+*.scss.d.ts
+
+dist
+
+nest-cli.json
+tsconfig.build.json
+tsconfig.json
+package.json

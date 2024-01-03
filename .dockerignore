@@ -1,0 +1,20 @@
+# compiled output
+.vscode
+/node_modules
+dist
+
+.git
+.gitignore
+npm-debug.log
+README.md
+
+# code formatter
+.eslint*
+.editorconfig
+.husky*
+.lintstagedrc.json
+.prettier*
+
+#docker
+.dockerignore
+Dockerfile
