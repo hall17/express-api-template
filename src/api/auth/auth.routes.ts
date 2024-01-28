@@ -5,7 +5,7 @@ import { authenticate, response, validate } from '@/middlewares';
 import { AuthController } from './auth.controller';
 import { LoginUserSchema } from './dtos/login-user-dto';
 
-import { Routes } from '@/types/routes.interface';
+import { Routes } from '@/common/interfaces';
 
 export class AuthRoutes implements Routes {
   path = '/auth';

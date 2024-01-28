@@ -12,10 +12,6 @@ export class UsersController {
     return this.usersService.findOne(id);
   };
 
-  findTodayBirthdays = async () => {
-    return this.usersService.findTodayBirthdays();
-  };
-
   findAll = async (req: Request<unknown, unknown, unknown, GetUsersFilterDto>) => {
     return this.usersService.findAll(req.query);
   };
@@ -32,9 +28,5 @@ export class UsersController {
   delete = async (req: Request) => {
     const id = String(req.params.id);
     return this.usersService.delete(id);
-  };
-
-  getOrgChart = async (_req: Request) => {
-    return this.usersService.getOrgChart();
   };
 }

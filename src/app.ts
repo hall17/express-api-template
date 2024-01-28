@@ -11,10 +11,10 @@ import swaggerUi from 'swagger-ui-express';
 
 import { errorMiddleware } from '@/middlewares';
 
+import { Routes } from './common/interfaces';
 import { env } from './env';
 
 import { logger, stream } from '@/libs/logger';
-import { Routes } from '@/types/routes.interface';
 
 export class App {
   app: express.Application;
@@ -68,7 +68,7 @@ export class App {
 
   private initializeRoutes(routes: Routes[]) {
     // health check endpoint
-    this.app.get('/health-check', (req, res) => {
+    this.app.get('/status', (req, res) => {
       res.status(200).send('OK');
     });
 

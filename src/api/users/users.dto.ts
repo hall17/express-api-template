@@ -2,7 +2,7 @@ import { Gender, UserRole, UserStatus } from '@prisma/client';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
-import { DefaultFilterSchema } from '@/types/types';
+import { DefaultFilterSchema } from '@/common/types';
 
 export const CreateUserSchema = z.strictObject({
   id: z.string().optional(),

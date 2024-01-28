@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { ZodSchema, z } from 'zod';
 
-import { HttpException } from '@/types/HttpException';
+import { HttpStatus } from '@/common/enums';
+import { HttpException } from '@/common/types';
 
 type BodyValidation = {
   body: boolean;
@@ -40,7 +40,7 @@ export const validate = (schema: ZodSchema, options: ValidationOptions = { body:
       if (err instanceof z.ZodError) {
         err = err.issues.map((e) => ({ path: e.path[0], message: e.message }));
       }
-      next(new HttpException({ status: StatusCodes.BAD_REQUEST, message: err as string }));
+      next(new HttpException({ status: HttpStatus.BAD_REQUEST, message: err as string }));
     }
   };
 };

@@ -5,7 +5,7 @@ import { authenticate, response, validate } from '@/middlewares';
 import { UsersController } from './users.controller';
 import { CreateUserSchema, GetUsersFilterSchema, UpdateUserSchema } from './users.dto';
 
-import { Routes } from '@/types/routes.interface';
+import { Routes } from '@/common/interfaces';
 
 export class UsersRoutes implements Routes {
   path = '/users';

@@ -1,15 +1,15 @@
-import { Router } from 'express';
 import { z } from 'zod';
 
-export type Routes = {
-  path?: string;
-  router: Router;
-};
+import { HttpStatus } from '../enums';
 
 export type User = {
   id: string;
   email: string;
+  companyId: number;
+  positionId: string;
+  titleId: string;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
 };
 
 export type TokenData = {
@@ -23,3 +23,5 @@ export const DefaultFilterSchema = z.strictObject({
   page: z.string().transform(Number).optional(),
   size: z.string().transform(Number).optional(),
 });
+
+export type HttpExceptionType = { status: HttpStatus; message: string };

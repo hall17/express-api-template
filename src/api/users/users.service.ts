@@ -2,12 +2,11 @@ import { Prisma } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 
-import { httpExceptions } from '@/utils';
-
 import { CreateUserDto, GetUsersFilterDto, UpdateUserDto } from './users.dto';
 
+import { HTTP_EXCEPTIONS } from '@/common/constants';
+import { HttpException } from '@/common/types';
 import { prisma } from '@/libs/prisma';
-import { HttpException } from '@/types/HttpException';
 import { PAGE_SIZE } from '@/utils/constants';
 
 @Service()
@@ -68,7 +67,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new HttpException(httpExceptions.userNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.USER_NOT_FOUND);
     }
 
     return user;
@@ -92,7 +91,9 @@ export class UsersService {
       const emailExists = users.some((user) => user.email === dto.email);
 
       throw new HttpException(
-        emailExists ? httpExceptions.userWithThatEmailAlreadyExists : httpExceptions.userWithThatUserIdAlreadyExists,
+        emailExists
+          ? HTTP_EXCEPTIONS.USER_WITH_THAT_EMAIL_ALREADY_EXISTS
+          : HTTP_EXCEPTIONS.USER_WITH_THAT_USER_ID_ALREADY_EXISTS,
       );
     }
 
@@ -115,7 +116,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new HttpException(httpExceptions.userNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.USER_NOT_FOUND);
     }
 
     const updatedUser = await prisma.user.update({
@@ -132,7 +133,7 @@ export class UsersService {
     });
 
     if (payload.count === 0) {
-      throw new HttpException(httpExceptions.userNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.USER_NOT_FOUND);
     }
 
     return id;

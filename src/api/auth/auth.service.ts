@@ -3,13 +3,12 @@ import { sign } from 'jsonwebtoken';
 import { Service } from 'typedi';
 
 import { ACCESS_TOKEN_SECRET_KEY } from '@/config';
-import { httpExceptions } from '@/utils';
 
 import { LoginUserDto } from './dtos/login-user-dto';
 
+import { HTTP_EXCEPTIONS } from '@/common/constants';
+import { HttpException, TokenData } from '@/common/types';
 import { prisma } from '@/libs/prisma';
-import { HttpException } from '@/types/HttpException';
-import { TokenData } from '@/types/types';
 
 @Service()
 export class AuthService {
@@ -32,13 +31,13 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException(httpExceptions.accountNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.ACCOUNT_NOT_FOUND);
     }
 
     const isPasswordMatching = await compare(dto.password, user.password);
 
     if (!isPasswordMatching) {
-      throw new HttpException(httpExceptions.wrongPassword);
+      throw new HttpException(HTTP_EXCEPTIONS.WRONG_PASSWORD);
     }
 
     const tokenData = this.createToken(user.id, user.email, user.userRole === 'ADMIN');
@@ -56,7 +55,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException(httpExceptions.userNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.USER_NOT_FOUND);
     }
 
     return user;
@@ -72,7 +71,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException(httpExceptions.accountNotFound);
+      throw new HttpException(HTTP_EXCEPTIONS.ACCOUNT_NOT_FOUND);
     }
 
     return user;
