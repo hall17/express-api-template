@@ -9,8 +9,9 @@ import cron from 'node-cron';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@/config';
 import { errorMiddleware } from '@/middlewares';
+
+import { env } from './env';
 
 import { logger, stream } from '@/libs/logger';
 import { Routes } from '@/types/routes.interface';
@@ -22,8 +23,8 @@ export class App {
 
   constructor(routes: Routes[]) {
     this.app = express();
-    this.env = NODE_ENV || 'development';
-    this.port = PORT || 3000;
+    this.env = env.NODE_ENV || 'development';
+    this.port = env.PORT || 3000;
 
     try {
       this.initializeMiddlewares();
@@ -55,9 +56,9 @@ export class App {
   }
 
   private initializeMiddlewares() {
-    this.app.use(morgan(LOG_FORMAT as string, { stream }));
+    this.app.use(morgan(env.LOG_FORMAT, { stream }));
     // this.app.use(hpp());
-    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+    this.app.use(cors({ origin: env.ORIGIN, credentials: env.CREDENTIALS }));
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(express.json());
