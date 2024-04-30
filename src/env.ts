@@ -2,6 +2,7 @@ import { createEnv } from '@t3-oss/env-core';
 import { config } from 'dotenv';
 import { z } from 'zod';
 
+// Load environment variables from .env file
 config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 export const env = createEnv({
@@ -23,6 +24,7 @@ export const env = createEnv({
       .min(1)
       .transform((origin) => JSON.parse(origin)),
     CREDENTIALS: z.string().min(1).transform(Boolean),
+    BACKEND_URL: z.string().min(1),
   },
   runtimeEnv: process.env,
 });

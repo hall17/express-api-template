@@ -9,6 +9,8 @@ import cron from 'node-cron';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import path from 'path';
+
 import { errorMiddleware } from '@/middlewares';
 
 import { Routes } from './common/interfaces';
@@ -33,8 +35,8 @@ export class App {
       this.initializeErrorHandling();
 
       cron.schedule('0 */14 * * * *', () => {
-        fetch('http://localhost:3000/health-check').catch(() => {
-          console.log('error in health check');
+        fetch(env.BACKEND_URL + '/status').catch(() => {
+          logger.error('Backend is not available.');
         });
       });
     } catch (error) {
@@ -64,6 +66,10 @@ export class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+
+    this.app.set('views', path.join(__dirname, 'views'));
+    this.app.set('view engine', 'ejs');
+    this.app.use(express.static(path.join(__dirname, 'assets')));
   }
 
   private initializeRoutes(routes: Routes[]) {

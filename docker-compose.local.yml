@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: test-db
+    command: postgres -c wal_level=logical -p 5433
+    build:
+      context: .
+      dockerfile: Dockerfile.database
+    restart: always
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - 127.0.0.1:5433:5433 # feel free to change the port to your liking
