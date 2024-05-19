@@ -1,9 +1,9 @@
+import { LOG_DIR } from '@api/config';
 import winston from 'winston';
 
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
-import { LOG_DIR } from '@/config';
 // logs dir
 const logDir: string = join(__dirname, LOG_DIR as string);
 

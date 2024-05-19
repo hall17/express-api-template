@@ -1,14 +1,12 @@
+import { HTTP_EXCEPTIONS } from '@api/common/constants';
+import { HttpException, TokenData } from '@api/common/types';
+import { ACCESS_TOKEN_SECRET_KEY } from '@api/config';
+import { prisma } from '@api/libs/prisma';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { Service } from 'typedi';
 
-import { ACCESS_TOKEN_SECRET_KEY } from '@/config';
-
-import { LoginUserDto } from './dtos/login-user-dto';
-
-import { HTTP_EXCEPTIONS } from '@/common/constants';
-import { HttpException, TokenData } from '@/common/types';
-import { prisma } from '@/libs/prisma';
+import { LoginUserDto } from './auth.dto';
 
 @Service()
 export class AuthService {

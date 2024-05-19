@@ -1,4 +1,7 @@
 import 'reflect-metadata';
+import { logger, stream } from '@api/libs/logger';
+import { errorMiddleware } from '@api/middlewares';
+import * as trpcExpress from '@trpc/server/adapters/express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -11,12 +14,10 @@ import swaggerUi from 'swagger-ui-express';
 
 import path from 'path';
 
-import { errorMiddleware } from '@/middlewares';
-
+import { appRouter } from './api/trpc/routers';
 import { Routes } from './common/interfaces';
 import { env } from './env';
-
-import { logger, stream } from '@/libs/logger';
+import { createContext } from './trpc';
 
 export class App {
   app: express.Application;
@@ -81,6 +82,14 @@ export class App {
     routes.forEach((route) => {
       this.app.use('/api', route.router);
     });
+
+    this.app.use(
+      '/api/trpc',
+      trpcExpress.createExpressMiddleware({
+        router: appRouter,
+        createContext: createContext,
+      }),
+    );
   }
 
   private initializeSwagger() {

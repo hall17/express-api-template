@@ -21,7 +21,7 @@
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@api/*": ["*"]
       // "@config": ["config"],
       // "@controllers/*": ["controllers/*"],
       // "@dtos/*": ["dtos/*"],

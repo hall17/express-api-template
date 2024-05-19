@@ -1,16 +1,15 @@
+import { HTTP_EXCEPTIONS } from '@api/common/constants';
+import { HttpException } from '@api/common/types';
+import { prisma } from '@api/libs/prisma';
+import { PAGE_SIZE } from '@api/utils/constants';
 import { Prisma } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 
-import { CreateUserDto, GetUsersFilterDto, UpdateUserDto } from './users.dto';
-
-import { HTTP_EXCEPTIONS } from '@/common/constants';
-import { HttpException } from '@/common/types';
-import { prisma } from '@/libs/prisma';
-import { PAGE_SIZE } from '@/utils/constants';
+import { CreateUserDto, GetUsersFilterDto, UpdateUserDto } from './user.dto';
 
 @Service()
-export class UsersService {
+export class UserService {
   async findAll(filterDto: GetUsersFilterDto) {
     const {
       q,

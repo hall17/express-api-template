@@ -1,8 +1,7 @@
+import { HttpStatus } from '@api/common/enums';
+import { HttpException } from '@api/common/types';
 import { NextFunction, Request, Response } from 'express';
 import { ZodSchema, z } from 'zod';
-
-import { HttpStatus } from '@/common/enums';
-import { HttpException } from '@/common/types';
 
 type BodyValidation = {
   body: boolean;
@@ -29,11 +28,6 @@ export const validate = (schema: ZodSchema, options: ValidationOptions = { body:
         const parsedSchema = schema.parse(req.query);
         req.query = parsedSchema;
       }
-      // schema.parse({
-      //   body: req.body,
-      //   query: req.query,
-      //   params: req.params,
-      // });
       next();
     } catch (error) {
       let err = error;

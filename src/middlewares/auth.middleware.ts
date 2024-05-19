@@ -1,10 +1,8 @@
+import { HTTP_EXCEPTIONS } from '@api/common/constants';
+import { HttpException, User } from '@api/common/types';
+import { ACCESS_TOKEN_SECRET_KEY } from '@api/config';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-
-import { ACCESS_TOKEN_SECRET_KEY } from '@/config';
-
-import { HTTP_EXCEPTIONS } from '@/common/constants';
-import { HttpException, User } from '@/common/types';
 
 const getAuthorization = (req: Request) => {
   const cookie = req.cookies['Authorization'];
@@ -25,12 +23,8 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
   try {
     const authorization = getAuthorization(req);
     if (authorization) {
-      const result = verify(authorization, ACCESS_TOKEN_SECRET_KEY as string) as User;
-      req.user = result;
-      // TODO: add admin role check
-      if ('userId' in req.params && req.params.userId !== result.id && !result.isAdmin) {
-        next(new HttpException(HTTP_EXCEPTIONS.AUTHENTICATION_FAILED));
-      }
+      const verifiedUser = verify(authorization, ACCESS_TOKEN_SECRET_KEY as string) as User;
+      req.user = verifiedUser;
 
       next();
     } else {

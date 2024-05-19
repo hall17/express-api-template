@@ -30,6 +30,7 @@
   "dependencies": {
     "@prisma/client": "^5.5.2",
     "@t3-oss/env-core": "^0.8.0",
+    "@trpc/server": "^10.45.2",
     "@types/multer": "^1.4.11",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",

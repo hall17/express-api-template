@@ -24,4 +24,8 @@ export const DefaultFilterSchema = z.strictObject({
   size: z.string().transform(Number).optional(),
 });
 
+export const IdSchema = z.object({
+  id: z.string().uuid(),
+});
+
 export type HttpExceptionType = { status: HttpStatus; message: string };
