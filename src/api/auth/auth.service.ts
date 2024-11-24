@@ -1,6 +1,6 @@
 import { HTTP_EXCEPTIONS } from '@api/common/constants';
-import { HttpException, TokenData } from '@api/common/types';
-import { ACCESS_TOKEN_SECRET_KEY } from '@api/config';
+import { HttpException, TokenData, User } from '@api/common/types';
+import { env } from '@api/env';
 import { prisma } from '@api/libs/prisma';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
@@ -47,9 +47,10 @@ export class AuthService {
     };
   }
 
-  public async verify(id: string) {
+  public async verify(requestedBy: User) {
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { id: requestedBy.id },
+      select: { id: true, firstName: true, email: true },
     });
 
     if (!user) {
@@ -59,12 +60,13 @@ export class AuthService {
     return user;
   }
 
-  public async logout(dto: LoginUserDto) {
-    const user = await prisma.user.findFirst({
-      where: { email: dto.email, password: dto.password },
+  public async logout(requestedBy: User) {
+    const user = await prisma.user.findUnique({
+      where: { id: requestedBy.id },
       select: {
         id: true,
         email: true,
+        password: true,
       },
     });
 
@@ -78,7 +80,10 @@ export class AuthService {
   public createToken(userId: string, email: string, isAdmin: boolean): TokenData {
     const expiresIn: number = 60 * 60 * 6;
 
-    return { expiresIn, token: sign({ id: userId, email, isAdmin }, ACCESS_TOKEN_SECRET_KEY as string, { expiresIn }) };
+    return {
+      expiresIn,
+      token: sign({ id: userId, email, isAdmin }, env.ACCESS_TOKEN_SECRET_KEY as string, { expiresIn }),
+    };
   }
 
   public createCookie(tokenData: TokenData): string {

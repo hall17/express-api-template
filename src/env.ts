@@ -12,6 +12,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
     ACCESS_TOKEN_SECRET_KEY: z.string().min(1),
     LOG_FORMAT: z.string().min(1),
+    LOG_DIR: z.string().min(1),
     // LOG_FORMAT: z.union([
     //   z.literal('combined'),
     //   z.literal('common'),

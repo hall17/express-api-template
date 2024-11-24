@@ -1,11 +1,11 @@
-import { LOG_DIR } from '@api/config';
+import { env } from '@api/env';
 import winston from 'winston';
 
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 // logs dir
-const logDir: string = join(__dirname, LOG_DIR as string);
+const logDir: string = join(__dirname, env.LOG_DIR as string);
 
 if (!existsSync(logDir)) {
   mkdirSync(logDir);
